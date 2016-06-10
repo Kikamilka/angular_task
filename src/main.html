@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
   <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+  <script type="text/javascript" src="../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
@@ -67,39 +68,42 @@
 
       <!-- Add/Edit modal -->
       <modal id="modalEdit" title="Product" visible="modalShown" data-backdrop="static">
-        <form name="productForm" role="form" ng-controller="validateCtrl" novalidate>
+        <form name="myForm" ng-controller="validateCtrl" ng-submit="submitForm()" novalidate>
+
           <div class="form-group">
             <label for="name">Name product:</label>
-            <input name="name" type="text" class="form-control" id="nameModal" placeholder="Enter name" ng-model="productName" required />
+            <input name="name" type="text" class="form-control col-sm-6"" id="nameModal" placeholder="Enter name" ng-model="nameValid" name-validator/>
             
-            <span style="color:red" ng-show="productForm.name.$dirty && productForm.name.$invalid">
-              <span ng-show="productForm.name.$error.required">name is required.</span>
-            </span>
+            <p ng-if="myForm.name.$error.nameValidator" class="help-block .col-md-6">You name is required.</p>
 
-            <span ng-show="form.name.$error.lengthF">Field should have length from 1 to 15 words!</span>
-            <span ng-show="form.name.$error.space">Field shouldn't consists of only spaces!</span>
+            <!--<span ng-show="form.name.$error.lengthF">Field should have length from 1 to 15 words!</span>
+            <span ng-show="form.name.$error.space">Field shouldn't consists of only spaces!</span>-->
           </div>
+
           <div class="form-group">
             <label for="email">Supplier email:</label>
-            <input type="email" class="form-control" name="email" id="emailModal" placeholder="Enter email" ng-required="isEmailRequired" ng-model="email.text" required/>
-            <span ng-show="productForm.overwrittenEmail.$error.email">This email format is invalid!</span><br>
+            <input type="email" class="form-control" name="email" id="emailModal" placeholder="Enter email" ng-required="isEmailRequired" ng-model="user.email" required/>
+            <span ng-show="myForm.email.$error.required">Email is required.</span>
+            <span ng-show="myForm.email.$error.email">Invalid email address.</span>
+            <!--<span ng-show="myForm.overwrittenEmail.$error.email">This email format is invalid!</span><br>-->
           </div>
+
           <div class="form-group">
             <label for="count">Count:</label>
             <input type="number" class="form-control" id="countModal" placeholder="Enter count" />
           </div>
+
           <div class="form-group">
             <label for="price">Price:</label>
             <input type="number" class="form-control" id="priceModal" placeholder="Enter price" />
           </div>
-          <button type="submit" id="doneProd" class="btn btn-default" 
-          ng-disabled="productForm.name.$dirty && productForm.name.$invalid || productForm.email.$dirty && productForm.email.$invalid"> Save </button>
+          <button type="submit" id="doneProd" class="btn btn-default" ng-disabled="myForm.$invalid"> Save </button>
         </form>
       </modal>
 
       <!-- Info modal -->
       <modal id="modalInfo" title="Product" visible="modalInfoShown" data-backdrop="static">
-        <form name="productForm" role="form">
+        <form name="myForm" role="form">
           <div class="form-group">
             <label for="#nameInfo">Name:</label>
             <label id="nameInfo"></label>
