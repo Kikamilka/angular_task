@@ -17,7 +17,8 @@
   "author": "Zaeva Kamila",
   "license": "ISC",
   "dependencies": {
-    "angular": "^1.5.6"
+    "angular": "^1.5.6",
+    "format-as-currency": "^3.1.0"
   },
   "devDependencies": {
     "angular": "^1.5.6"

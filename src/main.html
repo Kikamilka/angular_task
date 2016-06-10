@@ -1,114 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
- <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">   
- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
- <link rel="stylesheet" type="text/css" href="style.css">
- <title>Angular Product App</title>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
+  <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Angular Product App</title>
 </head>
 <body>
- <div class="container" ng-app="goodsApp" ng-controller="mainController">
+  <div class="container" ng-app="goodsApp" ng-controller="mainController">
 
-   <form>
-     <div class="form-group">
-       <div class="input-group">
-         <div class="input-group-addon"><i class="fa fa-search"></i></div>
-         <input type="text" class="form-control" placeholder="Search product" ng-model="searchItem.name">           
-       </div>    
-       <button type="button" class="btn" data-toggle="modal" data-backdrop="static" data-target="#myModal">Add new</button>
-       <button ng-click="toggleModal()" class="btn btn-default">Add new</button>
-     </div>
-   </form>
+    <form>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon"> <i class="fa fa-search"></i>
+          </div>
+          <input type="text" class="form-control" placeholder="Search product" ng-model="searchItem.name"></div>
+          <!--<button type="button" class="btn" data-toggle="modal" data-backdrop="static" data-target="#myModal">Add new</button>-->
+          <button ng-click="changeModal(null)" class="btn btn-default" data-backdrop="static">Add new</button>
+        </div>
+      </form>
 
-   <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped">
 
-    <thead>
-      <tr>
-       <td>
-        <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
-          Name 
-          <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
-          <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
-        </a>
-      </td>
-      <td>
-       <a href="#" ng-click="sortType = 'price'; sortReverse = !sortReverse">
-        Price 
-        <span ng-show="sortType == 'price' && !sortReverse" class="fa fa-caret-down"></span>
-        <span ng-show="sortType == 'price' && sortReverse" class="fa fa-caret-up"></span>
-      </a>
-    </td>    
-    <td>
-     <a> Actions </a>
-   </td>    
- </tr>
-</thead>    
-<tbody>
- <tr ng-repeat="goods in products | orderBy:sortType:sortReverse | filter:searchItem">
-  <td class = "name-product"> <a ng-click="toggleModal()">{{ goods.name }}</a> <a class = "countGoods">{{ goods.count }}</a></td>
-  <td>{{ goods.price | currency }}</td>
-  <td><button type="button" class="btn" data-toggle="modal" data-backdrop="static" data-target="#myModal">Edit</button>
-    <button ng-click="toggleModal()" class="btn btn-default">Edit</button>
-    <button ng-click="deleteModal()" class="btn btn-default">Delete</button>
-  </td>
-</tr>
-</tbody>
-</table>  
-
-<modal-dialog show='modalShown' width='400px' height='60%'>
-  <form role="form" data-backdrop="static">
-   <div class="form-group">
-     <label for="name">Name</label>
-     <input type="text" class="form-control" id="name" placeholder="Input product's name" />
-   </div>
-   <div class="form-group">
-     <label for="price">Password</label>
-     <input type="number" class="form-control" id="price" placeholder="Price product" />
-   </div>
-   <button type="submit" class="btn btn-default">Add</button>
- </form>
-</modal-dialog>
+        <thead>
+          <tr>
+            <td>
+              <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                Name
+                <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </td>
+            <td>
+              <a href="#" ng-click="sortType = 'price'; sortReverse = !sortReverse">
+                Price
+                <span ng-show="sortType == 'price' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'price' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </td>
+            <td>
+              <a>Actions</a>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="goods in products | orderBy:sortType:sortReverse | filter:searchItem">
+            <td class = "name-product">
+              <a ng-click="infoModal(goods)">{{ goods.name }}</a>
+              <a class = "countGoods">{{ goods.count }}</a>
+            </td>
+            <td>{{ goods.price | currency }}</td>
+            <td>
+              <!--<button ng-click="editProduct(goods)" type="button" class="btn" data-toggle="modal" data-backdrop="static" data-target="#myModal">Edit</button>-->
+              <button ng-click="changeModal(goods)" class="btn btn-default" data-backdrop="static">Edit</button>
+              <button ng-click="deleteModal(goods)" class="btn btn-default" data-backdrop="static">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
 
+      <!-- Add/Edit modal -->
+      <modal id="modalEdit" title="Product" visible="modalShown" data-backdrop="static">
+        <form name="productForm" role="form" ng-controller="validateCtrl" novalidate>
+          <div class="form-group">
+            <label for="name">Name product:</label>
+            <input name="name" type="text" class="form-control" id="nameModal" placeholder="Enter name" ng-model="productName" required />
+            
+            <span style="color:red" ng-show="productForm.name.$dirty && productForm.name.$invalid">
+              <span ng-show="productForm.name.$error.required">name is required.</span>
+            </span>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog">
+            <span ng-show="form.name.$error.lengthF">Field should have length from 1 to 15 words!</span>
+            <span ng-show="form.name.$error.space">Field shouldn't consists of only spaces!</span>
+          </div>
+          <div class="form-group">
+            <label for="email">Supplier email:</label>
+            <input type="email" class="form-control" name="email" id="emailModal" placeholder="Enter email" ng-required="isEmailRequired" ng-model="email.text" required/>
+            <span ng-show="productForm.overwrittenEmail.$error.email">This email format is invalid!</span><br>
+          </div>
+          <div class="form-group">
+            <label for="count">Count:</label>
+            <input type="number" class="form-control" id="countModal" placeholder="Enter count" />
+          </div>
+          <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="priceModal" placeholder="Enter price" />
+          </div>
+          <button type="submit" id="doneProd" class="btn btn-default" 
+          ng-disabled="productForm.name.$dirty && productForm.name.$invalid || productForm.email.$dirty && productForm.email.$invalid"> Save </button>
+        </form>
+      </modal>
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <form role="form" data-backdrop="static">
-         <div class="form-group">
-           <label for="name">Name</label>
-           <input type="text" class="form-control" id="name" placeholder="Input product's name" />
-         </div>
-         <div class="form-group">
-           <label for="price">Password</label>
-           <input type="number" class="form-control" id="price" placeholder="Price product" />
-         </div>
-         <button type="submit" class="btn btn-default">Add</button>
-       </form>
-     </div>
-     <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <!-- Info modal -->
+      <modal id="modalInfo" title="Product" visible="modalInfoShown" data-backdrop="static">
+        <form name="productForm" role="form">
+          <div class="form-group">
+            <label for="#nameInfo">Name:</label>
+            <label id="nameInfo"></label>
+          </div>
+          <div class="form-group">
+            <label for="#emailInfo">Supplier email:</label>
+            <label id="emailInfo"></label>
+          </div>
+          <div class="form-group">
+            <label for="#countInfo">Count:</label>
+            <label id="countInfo"></label>
+          </div>
+          <div class="form-group">
+            <label for="#priceInfo">Price:</label>
+            <label id="priceInfo"></label>
+          </div>
+        </form>
+      </modal>
+
+      <!-- Delete modal -->
+      <modal id="modalDelete" class="small-modal" title="Are you sure?" visible="modalDeleteShown" data-backdrop="static">
+        <form role="form">
+          <label id="question"></label>
+          <div >
+            <button type="submit" id="yesDelete" class="btn btn-default">Yes</button>
+            <button type="button" id="noDelete" class="btn btn-default">No</button>
+          </div>
+        </form>
+      </modal>
+
     </div>
-  </div>
-
-</div>
-</div>
-
-</div>
-<script src="app.js"></script>
-</body>
-</html>
+    <script src="app.js"></script>
+  </body>
+  </html>
