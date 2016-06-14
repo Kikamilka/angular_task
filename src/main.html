@@ -62,17 +62,17 @@
     </table>
 
     <modal id="modalChange" title="Product" visible="modalShown" data-backdrop="static">
-      <form name="myForm" ng-submit="submitForm()" novalidate>
+      <form name="myForm" data-ng-submit="myAction(myForm.$valid)" autocomplete="off" novalidate>
 
         <div class="form-group">
           <label for="name">Name product:</label>
-          <input name="name" type="text" class="form-control" id="nameModal" placeholder="Enter name" ng-model="user.name"  name-validator ng-model-options="{ updateOn: 'blur' }"/>
+          <input name="name" type="text" class="form-control" id="nameModal" placeholder="Enter name" ng-model="user.name"  name-validator ng-model-options="{ updateOn: 'blur' }">
           <span ng-show="myForm.name.$error.nameValidator">Field should have length from 1 to 15 words!</span>
         </div>
 
         <div class="form-group">
           <label for="email">Supplier email:</label>
-          <input name="email" type="email" class="form-control" id="emailModal" placeholder="Enter email" ng-model="user.email" ng-model-options="{ updateOn: 'blur' }"/>
+          <input name="email" type="email" class="form-control" id="emailModal" placeholder="Enter email" ng-model="user.email" ng-model-options="{ updateOn: 'blur' }">
           <span class = "errorInput" ng-show="myForm.email.$error.email">Incorrect email</span>
         </div>
 
@@ -86,7 +86,7 @@
           <label for="price">Price:</label>
           <input type="number" class="form-control" id="priceModal" placeholder="Enter price" /> <!--validate-elem-->
         </div>
-        <button type="submit" id="doneProd" class="btn btn-default" ng-disabled="myForm.$invalid">Save</button>
+        <button type="submit" id="doneProd" class="btn btn-default">Save</button>
       </form>
     </modal>
 
